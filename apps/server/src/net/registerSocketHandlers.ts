@@ -1,6 +1,7 @@
 import {
   ClientEvent,
   createRoomPayloadSchema,
+  createTestRoomPayloadSchema,
   joinRoomPayloadSchema,
   playerInputPayloadSchema,
   ServerEvent
@@ -39,6 +40,29 @@ export const registerSocketHandlers = (io: Server, roomManager: RoomManager) => 
         broadcastRoomListing(io, roomManager);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Could not create the room.";
+        emitRoomError(socket, message);
+      }
+    });
+
+    socket.on(ClientEvent.CREATE_TEST_ROOM, (payload: unknown) => {
+      const parsed = createTestRoomPayloadSchema.safeParse(payload);
+
+      if (!parsed.success) {
+        emitRoomError(socket, "Pick a driver name between 2 and 24 characters.");
+        return;
+      }
+
+      try {
+        const result = roomManager.createTestRoom(socket.id, parsed.data.playerName);
+        socket.join(result.room.roomId);
+        socket.emit(ServerEvent.SESSION_READY, {
+          playerId: result.playerId,
+          roomId: result.room.roomId
+        });
+        broadcastRoomSnapshot(io, result.room);
+        broadcastRoomListing(io, roomManager);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Could not open the test grounds.";
         emitRoomError(socket, message);
       }
     });

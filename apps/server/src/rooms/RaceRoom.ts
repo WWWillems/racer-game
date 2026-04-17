@@ -7,9 +7,17 @@ import { getBananaSpawn } from "../sim/funnyItems";
 import { createCountdownState, type SimulationState, stepSimulation } from "../sim/stepSimulation";
 
 type RoomPlayer = {
+  isBot: boolean;
   playerId: string;
   socketId: string;
   state: ServerKartState;
+};
+
+const BOT_SOCKET_PREFIX = "bot:";
+const TEST_BOT_NAME = "Practice Dummy";
+
+export const isBotSocketId = (socketId: string): boolean => {
+  return socketId.startsWith(BOT_SOCKET_PREFIX);
 };
 
 export class RaceRoom {
@@ -17,7 +25,10 @@ export class RaceRoom {
 
   private simulationState: SimulationState;
 
-  public constructor(public readonly roomId: string) {
+  public constructor(
+    public readonly roomId: string,
+    public readonly isTestRoom: boolean = false
+  ) {
     this.simulationState = {
       banana: getBananaSpawn(0),
       countdownTicksRemaining: 0,
@@ -30,6 +41,27 @@ export class RaceRoom {
   }
 
   public addPlayer(socketId: string, playerName: string): string {
+    return this.addRoomPlayer(socketId, playerName, false);
+  }
+
+  public addTestBot(): string {
+    const botSocketId = `${BOT_SOCKET_PREFIX}${randomUUID()}`;
+    return this.addRoomPlayer(botSocketId, TEST_BOT_NAME, true);
+  }
+
+  public getHumanPlayerCount(): number {
+    let count = 0;
+
+    for (const player of this.playersBySocketId.values()) {
+      if (!player.isBot) {
+        count += 1;
+      }
+    }
+
+    return count;
+  }
+
+  private addRoomPlayer(socketId: string, playerName: string, isBot: boolean): string {
     if (this.playersBySocketId.size >= MAX_PLAYERS_PER_ROOM) {
       throw new Error("This room is already full of chaos.");
     }
@@ -39,9 +71,11 @@ export class RaceRoom {
     const spawnAngle = (rosterIndex / Math.max(MAX_PLAYERS_PER_ROOM, 1)) * Math.PI * 2;
     const radius = 22;
     const player: RoomPlayer = {
+      isBot,
       playerId,
       socketId,
       state: {
+        brakeHeldToStop: false,
         checkpointIndex: 3,
         finishedAtTick: null,
         heading: -spawnAngle + Math.PI / 2,
@@ -74,9 +108,10 @@ export class RaceRoom {
     return this.playersBySocketId.get(socketId)?.playerId ?? null;
   }
 
-  public getPlayerSockets(): Array<{ playerId: string; socketId: string }> {
+  public getPlayerSockets(): Array<{ isBot: boolean; playerId: string; socketId: string }> {
     return [...this.playersBySocketId.values()].map((player) => {
       return {
+        isBot: player.isBot,
         playerId: player.playerId,
         socketId: player.socketId
       };
@@ -201,6 +236,7 @@ export class RaceRoom {
 
         return {
           ...player.state,
+          brakeHeldToStop: false,
           checkpointIndex: 3,
           finishedAtTick: null,
           heading: -angle + Math.PI / 2,

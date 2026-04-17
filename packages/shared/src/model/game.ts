@@ -67,7 +67,8 @@ export const playerSessionSchema = z.object({
 export type PlayerSession = z.infer<typeof playerSessionSchema>;
 
 export const serverKartStateSchema = kartStateSchema.extend({
-  input: playerInputSchema
+  input: playerInputSchema,
+  brakeHeldToStop: z.boolean()
 });
 
 export type ServerKartState = z.infer<typeof serverKartStateSchema>;

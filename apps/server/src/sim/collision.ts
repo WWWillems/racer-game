@@ -63,8 +63,13 @@ export const resolveKartCollisions = (karts: ServerKartState[]): ServerKartState
       right.position.x += normalX * overlap;
       right.position.z += normalZ * overlap;
 
-      left.speed *= 0.92;
-      right.speed *= 0.92;
+      left.velocity.x *= 0.85;
+      left.velocity.z *= 0.85;
+      right.velocity.x *= 0.85;
+      right.velocity.z *= 0.85;
+
+      left.speed = left.velocity.x * Math.sin(left.heading) + left.velocity.z * Math.cos(left.heading);
+      right.speed = right.velocity.x * Math.sin(right.heading) + right.velocity.z * Math.cos(right.heading);
     }
   }
 

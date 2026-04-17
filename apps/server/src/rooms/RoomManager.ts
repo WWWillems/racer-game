@@ -28,6 +28,24 @@ export class RoomManager {
     return { playerId, room };
   }
 
+  public createTestRoom(socketId: string, playerName: string): { playerId: string; room: RaceRoom } {
+    this.removeSocket(socketId);
+
+    let roomId = buildRoomId();
+
+    while (this.rooms.has(roomId)) {
+      roomId = buildRoomId();
+    }
+
+    const room = new RaceRoom(roomId, true);
+    const playerId = room.addPlayer(socketId, playerName);
+    room.addTestBot();
+
+    this.rooms.set(roomId, room);
+
+    return { playerId, room };
+  }
+
   public getRoomBySocket(socketId: string): RaceRoom | null {
     for (const room of this.rooms.values()) {
       if (room.hasSocket(socketId)) {
@@ -53,7 +71,9 @@ export class RoomManager {
   }
 
   public listRooms(): RoomSummary[] {
-    return [...this.rooms.values()].map((room) => room.getSummary());
+    return [...this.rooms.values()]
+      .filter((room) => !room.isTestRoom)
+      .map((room) => room.getSummary());
   }
 
   public removeSocket(socketId: string): void {
@@ -64,6 +84,11 @@ export class RoomManager {
     }
 
     room.removePlayer(socketId);
+
+    if (room.isTestRoom && room.getHumanPlayerCount() === 0) {
+      this.rooms.delete(room.roomId);
+      return;
+    }
 
     if (room.getSummary().playerCount === 0) {
       this.rooms.delete(room.roomId);

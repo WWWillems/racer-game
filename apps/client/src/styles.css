@@ -139,3 +139,54 @@ input {
   display: grid;
   gap: 8px;
 }
+
+.start-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(249, 115, 22, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 90%, rgba(236, 72, 153, 0.18), transparent 55%),
+    #101826;
+}
+
+.start-menu-card {
+  width: min(440px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  background: rgba(11, 18, 32, 0.92);
+  padding: 28px;
+  backdrop-filter: blur(18px);
+}
+
+.start-menu-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.start-menu-actions button {
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #f97316, #ec4899);
+  color: white;
+  cursor: pointer;
+}
+
+.start-menu-actions button.secondary {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.back-to-menu {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  color: inherit;
+  cursor: pointer;
+  font-size: 13px;
+}

@@ -39,9 +39,15 @@ export const applyBananaEffects = (
 
     nextBanana = getBananaSpawn(currentTick + 25);
 
+    const dampenedVelocity = {
+      x: kart.velocity.x * 0.3,
+      z: kart.velocity.z * 0.3
+    };
+
     return {
       ...kart,
       speed: kart.speed * 0.3,
+      velocity: dampenedVelocity,
       spinTicks
     };
   });

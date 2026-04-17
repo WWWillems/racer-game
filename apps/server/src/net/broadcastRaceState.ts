@@ -12,6 +12,10 @@ export const broadcastRoomListing = (io: Server, roomManager: RoomManager) => {
 
 export const broadcastRoomSnapshot = (io: Server, room: RaceRoom) => {
   for (const player of room.getPlayerSockets()) {
+    if (player.isBot) {
+      continue;
+    }
+
     io.to(player.socketId).emit(ServerEvent.ROOM_SNAPSHOT, room.getSnapshotFor(player.playerId));
   }
 };

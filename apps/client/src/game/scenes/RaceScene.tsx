@@ -17,8 +17,8 @@ export const RaceScene = () => {
 
   return (
     <>
-      <color attach="background" args={["#0f172a"]} />
-      <fog attach="fog" args={["#0f172a", 28, 92]} />
+      <color attach="background" args={["#bfdbfe"]} />
+      <fog attach="fog" args={["#bfdbfe", 28, 92]} />
       <ambientLight intensity={1.8} />
       <directionalLight castShadow intensity={2.4} position={[18, 28, 14]} />
       <TestTrack snapshot={snapshot} />

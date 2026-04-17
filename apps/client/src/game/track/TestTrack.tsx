@@ -1,6 +1,9 @@
 import { TRACK_INNER_RADIUS, TRACK_OUTER_RADIUS } from "@racer-game/shared";
 import type { RoomSnapshot } from "@racer-game/shared";
 
+import { Curbs } from "./Curbs";
+import { VoxelGround } from "./VoxelGround";
+
 type TestTrackProps = {
   snapshot: RoomSnapshot | null;
 };
@@ -10,19 +13,17 @@ export const TestTrack = ({ snapshot }: TestTrackProps) => {
 
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <circleGeometry args={[TRACK_OUTER_RADIUS + 18, 64]} />
-        <meshStandardMaterial color="#164e63" />
+      <VoxelGround />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
+        <ringGeometry args={[TRACK_INNER_RADIUS, TRACK_OUTER_RADIUS, 96]} />
+        <meshStandardMaterial color="#3f3f46" roughness={0.95} metalness={0} />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <ringGeometry args={[TRACK_INNER_RADIUS, TRACK_OUTER_RADIUS, 64]} />
-        <meshStandardMaterial color="#334155" />
-      </mesh>
-      <mesh position={[TRACK_OUTER_RADIUS - 2, 0.04, 0]} receiveShadow>
+      <Curbs />
+      <mesh position={[TRACK_OUTER_RADIUS - 2, 0.08, 0]} receiveShadow>
         <boxGeometry args={[0.8, 0.08, 8]} />
         <meshStandardMaterial color="#f8fafc" />
       </mesh>
-      <mesh position={[TRACK_OUTER_RADIUS - 2, 0.12, 0]}>
+      <mesh position={[TRACK_OUTER_RADIUS - 2, 0.16, 0]}>
         <sphereGeometry args={[0.75, 14, 14]} />
         <meshStandardMaterial color="#facc15" />
       </mesh>

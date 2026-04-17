@@ -5,6 +5,7 @@ import { playerInputSchema } from "../model/input";
 
 export enum ClientEvent {
   CREATE_ROOM = "create_room",
+  CREATE_TEST_ROOM = "create_test_room",
   JOIN_ROOM = "join_room",
   PLAYER_INPUT = "player_input",
   REQUEST_RESTART = "request_restart"
@@ -22,6 +23,12 @@ export const createRoomPayloadSchema = z.object({
 });
 
 export type CreateRoomPayload = z.infer<typeof createRoomPayloadSchema>;
+
+export const createTestRoomPayloadSchema = z.object({
+  playerName: z.string().trim().min(2).max(24)
+});
+
+export type CreateTestRoomPayload = z.infer<typeof createTestRoomPayloadSchema>;
 
 export const joinRoomPayloadSchema = z.object({
   playerName: z.string().trim().min(2).max(24),
