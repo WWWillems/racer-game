@@ -1,0 +1,38 @@
+---
+description: Use shared error codes for API error contracts
+alwaysApply: true
+---
+
+# Error Code Contracts
+
+- Do not detect specific backend failures by matching `error.message` strings.
+- For backend-only control flow, prefer a dedicated server-side error class.
+- Treat tRPC routers and API route handlers as transport boundaries: convert internal service errors there before exposing them to clients.
+- For errors that cross the network boundary, define a stable serialized `errorCode` in `@/shared`.
+- Frontend code should key off shared `errorCode` values from API responses, not hardcoded message strings.
+- Keep runtime error classes server-only; do not share them with the frontend as the transport contract.
+- Services should throw domain-specific errors; routers and API handlers should map them to transport-safe error shapes.
+- Keep shared error-code constants in a dedicated shared error contract file, not mixed into unrelated domain config when a separate error contract makes the boundary clearer.
+
+Example:
+
+```ts
+// Service layer
+throw new InsufficientCreditsError(...);
+
+// Boundary layer (tRPC router or API route)
+if (error instanceof InsufficientCreditsError) {
+	return Response.json(
+		{
+			errorCode: CREDIT_ERROR_CODES.INSUFFICIENT_CREDITS,
+			message: error.message,
+		},
+		{ status: 402 },
+	);
+}
+
+// Frontend
+if (errorBody?.errorCode === CREDIT_ERROR_CODES.INSUFFICIENT_CREDITS) {
+	openPricingDialog();
+}
+```

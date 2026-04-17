@@ -1,0 +1,28 @@
+{
+  "name": "@racer-game/client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@racer-game/shared": "workspace:^",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "socket.io-client": "^4.8.3",
+    "three": "^0.184.0",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.8",
+    "vitest": "^4.1.4"
+  }
+}

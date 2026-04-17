@@ -1,0 +1,17 @@
+{
+  "name": "racer-game",
+  "private": true,
+  "packageManager": "pnpm@9.4.0",
+  "scripts": {
+    "build": "pnpm --filter @racer-game/client build && pnpm --filter @racer-game/server typecheck && pnpm --filter @racer-game/shared typecheck",
+    "dev:client": "pnpm --filter @racer-game/client dev",
+    "dev:server": "pnpm --filter @racer-game/server dev",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

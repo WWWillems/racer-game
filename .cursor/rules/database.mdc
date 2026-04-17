@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+# Database
+We are using a Postgres database with Drizzle ORM.
+
+## Migrations
+- Always use `yarn db:generate` & `yarn db:migrate` when running migrations
+- Always use idempotent migrations

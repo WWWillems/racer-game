@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+# React
+
+- Always type your state getters & setters using TypeScript
+- Always implement in the easiest, most straightforward way possible
+- Avoid unnecessary complexity
+- Only use `useMemo` when absolutely necessary
+- Only use `useCallback` when absolutely necessary
+- Only use `ref`, `useRef` and `forwardRef` when absolutely necessary
+
+- Always use anonymous functions
+- Always use `async` and `await` instead of legacy promises
+
+## Timing & State Management
+- Never use `setTimeout` as a hack or workaround for timing issues
+- If you need `setTimeout` to make state updates work, the architecture is wrong
+- Instead, fix the root cause by:
+  - Combining related state updates into a single atomic operation
+  - Using proper dependency arrays in useEffect
+  - Moving logic into state management (e.g., Zustand store actions)
+  - Using proper event handlers and callbacks
+  - Or ask the user if you are unsure
+
+## Next.js usage
+- To render an image in HTML, always use `<img />` instead of `<Image />`

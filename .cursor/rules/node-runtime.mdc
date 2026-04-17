@@ -1,0 +1,11 @@
+---
+description: Use the project's .nvmrc Node version for shell work
+alwaysApply: true
+---
+
+# Node Runtime
+
+- Before running `pnpm`, `npm`, `node`, `tsx`, `vite`, `vitest`, or other Node-based shell commands in this repo, load the Node version from `.nvmrc`.
+- In shell commands, prefer:
+  - `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use`
+- If a Node-based command fails unexpectedly, verify the active Node version against `.nvmrc` before changing code or dependencies.

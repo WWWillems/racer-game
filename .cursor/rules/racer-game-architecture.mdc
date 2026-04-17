@@ -1,0 +1,20 @@
+---
+description: Multiplayer game architecture boundaries and SRP guardrails
+alwaysApply: true
+---
+
+# Racer Game Architecture
+
+- Keep `apps/client`, `apps/server`, and `packages/shared` strictly separated by responsibility.
+- Put transport contracts, shared constants, and framework-agnostic model types in `packages/shared`.
+- Keep React and Three.js code out of `apps/server`.
+- Keep simulation rules, lap logic, and funny-item behavior out of React components and socket handlers.
+- Treat socket handlers as transport wiring only. Parse payloads, delegate work, and emit results.
+- Prefer small files with one reason to change. Split early when UI, transport, and simulation concerns start mixing.
+- Client code may predict visuals later, but the server remains the authority for race state, collisions, laps, and winners.
+- When adding a new multiplayer feature, decide first whether it belongs to:
+  - view/rendering
+  - input capture
+  - socket transport
+  - simulation/domain logic
+  - shared protocol

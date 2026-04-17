@@ -1,0 +1,16 @@
+export const SERVER_TICK_RATE = 20;
+export const SERVER_TICK_MS = 1000 / SERVER_TICK_RATE;
+export const MAX_PLAYERS_PER_ROOM = 6;
+export const LAPS_TO_WIN = 3;
+export const COUNTDOWN_TICKS = SERVER_TICK_RATE * 3;
+export const TRACK_INNER_RADIUS = 16;
+export const TRACK_OUTER_RADIUS = 28;
+export const KART_RADIUS = 1.2;
+export const KART_ACCELERATION = 20;
+export const KART_BRAKE = 24;
+export const KART_DRAG = 0.92;
+export const KART_MAX_FORWARD_SPEED = 18;
+export const KART_MAX_REVERSE_SPEED = -6;
+export const KART_TURN_SPEED = 2.6;
+export const SPIN_TICKS_ON_BANANA = Math.floor(SERVER_TICK_RATE * 1.2);
+export const BANANA_COLLISION_RADIUS = 1.8;

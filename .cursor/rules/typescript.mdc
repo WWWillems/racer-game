@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+# TypeScript
+
+- Always implement in the easiest, most straightforward way possible
+- Avoid unnecessary complexity
+- Always use proper types, avoid using `any` at all costs, avoid casting types using `as` at all costs
+- Always type your state definitions
+- Never use `@ts-expect-error` without asking the user
+- Always `Boolean()` instead of `!!` for boolean coercion
+- Always use `async` and `await` instead of legacy promises
+- Always use static imports at the top of the file instead of dynamic `import()` calls unless there's a specific performance or code-splitting requirement
